@@ -1,0 +1,216 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desadio Solid Documentation",
+        "description": "This is an API Rent",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Kelvyn Telles",
+            "email": "kelvyn.telles@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["User"],
+                "summary": "Criar novo usuario",
+                "requestBody": {
+                    "requerid": true,
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "admin": false,
+                                        "id": "787187831-hwh73-08387-089489892-cdffjeuiy",
+                                        "name": "Kelvyn",
+                                        "email": "kelvyn.telles@gmail.com",
+                                        "created_at": "2023-02-08"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email já está sendo utilizado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Este email já está em uso"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["User"],
+                "summary": "Listar todos os usuarios",
+                "description": "Listar todos os usuarios, caso o usuario requisitante seja um admin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "description": "id do usuario requisitante",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": [
+                                        {
+                                            "admin": true,
+                                            "id": "787187831-hwh73-08387-089489892-cdffjeuiy",
+                                            "name": "Kelvyn",
+                                            "email": "kelvyn.telles@gmail.com",
+                                            "created_at": "2023-02-08"
+                                        },
+                                        {
+                                            "admin": false,
+                                            "id": "787187831-hwh73-08387-089489892-cdffjeuiy",
+                                            "name": "Fulano",
+                                            "email": "fulano.telles@gmail.com",
+                                            "created_at": "2023-02-08"
+                                        }    
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario sem permissão ou usuario não encontrado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Usuario não é admin ou usuario não encontrado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Buscar usuario pelo",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id - ID do usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "admin": false,
+                                        "id": "787187831-hwh73-08387-089489892-cdffjeuiy",
+                                        "name": "Kelvyn",
+                                        "email": "kelvyn.telles@gmail.com",
+                                        "created_at": "2023-02-08"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario não encontrado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Usuario não encontrado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["User"],
+                "summary": "Tornar usuario administrador",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user_id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "admin": true,
+                                        "id": "787187831-hwh73-08387-089489892-cdffjeuiy",
+                                        "name": "Kelvyn",
+                                        "email": "kelvyn.telles@gmail.com",
+                                        "created_at": "2023-02-08"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario não encontrado",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "error": "Usuario não encontrado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
